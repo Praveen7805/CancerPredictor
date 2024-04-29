@@ -1,10 +1,10 @@
 import streamlit as st
 import pickle
 import pandas as pd
-import plotly.graph_objects as go
+import plotly
 import numpy as np
 
-
+go = plotly.graph_objs
 def get_clean_data():
   data = pd.read_csv("data/data.csv")
   
