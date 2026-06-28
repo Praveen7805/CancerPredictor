@@ -1,15 +1,20 @@
 import streamlit as st
 import pickle
 import pandas as pd
-import plotly
 import numpy as np
 import os
 
-BASE_DIR = os.path.dirname(__file__)
+try:
+    import plotly
+    from plotly import graph_objs as go
+except ModuleNotFoundError:
+    plotly = None
+    go = None
 
-go = plotly.graph_objs
+BASE_DIR = os.path.dirname(__file__)
 def get_clean_data():
-  data = pd.read_csv("https://raw.githubusercontent.com/Praveen7805/cancer-predictor/main/data/data.csv")
+  data_path = os.path.join(BASE_DIR, "..", "data", "data.csv")
+  data = pd.read_csv(data_path)
   
   data = data.drop(['Unnamed: 32', 'id'], axis=1)
   
