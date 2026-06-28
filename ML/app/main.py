@@ -3,10 +3,13 @@ import pickle
 import pandas as pd
 import plotly
 import numpy as np
+import os
+
+BASE_DIR = os.path.dirname(__file__)
 
 go = plotly.graph_objs
 def get_clean_data():
-  data = pd.read_csv("data/data.csv")
+  data = pd.read_csv("https://raw.githubusercontent.com/Praveen7805/cancer-predictor/main/data/data.csv")
   
   data = data.drop(['Unnamed: 32', 'id'], axis=1)
   
@@ -139,8 +142,10 @@ def get_radar_chart(input_data):
 
 
 def add_predictions(input_data):
-  model = pickle.load(open("model/model.pkl", "rb"))
-  scaler = pickle.load(open("model/scaler.pkl", "rb"))
+  model_path = os.path.join(BASE_DIR, "..", "model", "model.pkl")
+  scaler_path = os.path.join(BASE_DIR, "..", "model", "scaler.pkl")
+  model = pickle.load(open(model_path, "rb"))
+  scaler = pickle.load(open(scaler_path, "rb"))
   
   input_array = np.array(list(input_data.values())).reshape(1, -1)
   
@@ -172,7 +177,8 @@ def main():
     initial_sidebar_state="expanded"
   )
   
-  with open("assets\style.css","r") as f:
+  css_path = os.path.join(BASE_DIR, "..", "assets", "style.css")
+  with open(css_path, "r") as f:
     st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
   
   input_data = add_sidebar()
